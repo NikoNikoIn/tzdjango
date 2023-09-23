@@ -24,3 +24,7 @@ class LessonView(models.Model):
         if self.viewedAt and self.lesson.length:
             currentTime = datetime.datetime.now()
             differenceInMinutes = int((currentTime - self.viewedAt).total_seconds() / 60)
+            if differenceInMinutes / self.lesson.length >= 0.8:
+                self.viewed = True
+
+        super().save(*args, **kwargs)
