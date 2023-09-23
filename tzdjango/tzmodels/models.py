@@ -9,3 +9,4 @@ class Lesson(models.Model):
     name = models.CharField(max_length=200)
     URL = models.URLField()
     length = models.SmallIntegerField()
+    inProduct = models.ManyToManyField(Product)
