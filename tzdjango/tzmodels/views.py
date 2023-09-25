@@ -14,3 +14,12 @@ def getLessonList(request):
     serializer = LessonSerializer(lessons, many = True)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def getUserLessons(request):
+    user = request.user
+    lessons = Lesson.objects.filter(inProduct__owner=user)
+    serializer = LessonSerializer(lessons, many=True)
+    views = LessonView.objects.filter(user=user)
+    serializerViews = LessonViewSerializer(views, many = True)
+    return Response({'lessons': serializer.data, 'products': serializerViews.data})

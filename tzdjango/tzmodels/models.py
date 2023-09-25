@@ -2,9 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from django.utils import timezone
+
  
 class Product(models.Model): 
-    owner = models.ForeignKey(User, on_delete = models.CASCADE)
+    name = models.CharField(max_length = 200, default="Product")
+    owner = models.ManyToManyField(User)
+
+    def __str__(self):
+        return self.name
 
 
 class Lesson(models.Model):
@@ -20,16 +26,17 @@ class Lesson(models.Model):
 class LessonView(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete = models.CASCADE)
-    viewedTime = models.IntegerField(default=0)
-    viewed = models.BooleanField(default=False)
+    viewedTime = models.IntegerField(default = 0)
+    viewed = models.BooleanField(default = False)
+    lastView = models.DateTimeField(default = timezone.now())
 
     def save(self, *args, **kwargs):
         if self.viewedTime and self.lesson.length:
-            if self.viewedTime / self.lesson.length >= 0.8:
+            if self.viewedTime / self.lesson.length >= 0.8 and self.viewedTime != 0:
                 self.viewed = True
             else:
                 self.viewed = False
-
+        self.lastView = timezone.now()
         super().save(*args, **kwargs)
 
     def clean(self):
@@ -37,4 +44,4 @@ class LessonView(models.Model):
             raise ValidationError("Viewed time cannot be greater than the lesson's length.")
         
     def __str__(self):
-        return self.lesson.name + " view"
+        return self.lesson.name + " view by " + str(self.user)
