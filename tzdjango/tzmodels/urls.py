@@ -4,4 +4,5 @@ from .views import *
 urlpatterns = [
     path('lessons/', getLessonList),
     path('userlessons/', getUserLessons),
+    path('productlessons/<str:pk>/', getLessonsByProduct),
 ]
