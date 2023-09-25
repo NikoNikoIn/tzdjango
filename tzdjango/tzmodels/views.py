@@ -9,9 +9,8 @@ from .serializers import *
 
 
 @api_view(['GET'])
-def getLessons(request):
+def getLessonList(request):
     lessons = Lesson.objects.all()
     serializer = LessonSerializer(lessons, many = True)
     return Response(serializer.data)
-
 

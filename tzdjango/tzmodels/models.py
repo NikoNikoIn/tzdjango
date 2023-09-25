@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from django.core.exceptions import ValidationError
 
  
 class Product(models.Model): 
@@ -13,19 +13,28 @@ class Lesson(models.Model):
     length = models.SmallIntegerField()
     inProduct = models.ManyToManyField(Product)
 
+    def __str__(self):
+        return self.name
+
 
 class LessonView(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete = models.CASCADE)
     viewedTime = models.IntegerField(default=0)
-    viewedAt = models.DateTimeField(auto_now_add = True)
     viewed = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        if self.viewedAt and self.lesson.length:
-            currentTime = datetime.datetime.now()
-            differenceInMinutes = int((currentTime - self.viewedAt).total_seconds() / 60)
-            if differenceInMinutes / self.lesson.length >= 0.8:
+        if self.viewedTime and self.lesson.length:
+            if self.viewedTime / self.lesson.length >= 0.8:
                 self.viewed = True
+            else:
+                self.viewed = False
 
         super().save(*args, **kwargs)
+
+    def clean(self):
+        if self.viewedTime > self.lesson.length:
+            raise ValidationError("Viewed time cannot be greater than the lesson's length.")
+        
+    def __str__(self):
+        return self.lesson.name + " view"
