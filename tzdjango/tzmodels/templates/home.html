@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HardQode</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            color: #333;
+            padding: 20px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .button-container button {
+            flex: 1;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            width: 500px;
+        }
+        
+        #inputText {
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <ul>
+        <li>
+            <div class="button-container">
+                <button onclick="window.open('http://127.0.0.1:8000/api/lessons/', '_blank')">Go to All lessons list</button>
+            </div>
+        </li>
+        <li>
+            <div class="button-container">
+                <button onclick="window.open('http://127.0.0.1:8000/api/userlessons/', '_blank')">Go to Current Users lessons list</button>
+            </div>
+        </li>
+        <li>
+            <div class="button-container">
+                <button onclick="openUrl()">Get info about Product (enter below)</button>
+            </div>
+        </li>
+        <li>
+            <input type="text" id="inputText" placeholder="Enter text here">
+        </li>
+        <li>
+            <div class="button-container">
+                <button onclick="window.open('http://127.0.0.1:8000/api/productstats/', '_blank')">Get all Product Stats</button>
+            </div>
+        </li>
+    </ul>
+        
+    <script>
+        function openUrl() {
+            var inputText = document.getElementById("inputText").value;
+            if (inputText.trim() === "") {
+                alert("Please enter a value in the input field.");
+                return;
+            }
+            var url = "http://127.0.0.1:8000/api/productlessons/" + inputText;
+            window.open(url, "_blank");
+        }
+    </script>    
+</body>
+</html>

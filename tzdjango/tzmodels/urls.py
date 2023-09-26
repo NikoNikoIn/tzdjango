@@ -6,4 +6,5 @@ urlpatterns = [
     path('userlessons/', getUserLessons),
     path('productlessons/<str:pk>/', getLessonsByProduct),
     path('productstats/', getProductStats),
+    path('', homePage),
 ]
