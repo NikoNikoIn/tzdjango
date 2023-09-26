@@ -48,7 +48,7 @@
         }
         
         #inputText {
-            width: 100%;
+            width: 500px;
             padding: 10px 20px;
             font-size: 16px;
             box-sizing: border-box;
@@ -74,14 +74,22 @@
             </div>
         </li>
         <li>
-            <input type="text" id="inputText" placeholder="Enter text here">
+            <input type="text" id="inputText" placeholder="Enter Product name here">
         </li>
         <li>
             <div class="button-container">
                 <button onclick="window.open('http://127.0.0.1:8000/api/productstats/', '_blank')">Get all Product Stats</button>
             </div>
         </li>
+        <li>
+            <p>You can create the superuser in the terminal or in the admin panel and assign the products to it in the admin panel</p>
+        </li>
+        <li>
+            <p><a href="http://127.0.0.1:8000/admin/login/?next=/admin/" target="_blank">Go to admin panel</a></p>
+        </li>
     </ul>
+
+    
         
     <script>
         function openUrl() {
