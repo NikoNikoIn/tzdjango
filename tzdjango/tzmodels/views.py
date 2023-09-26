@@ -39,5 +39,20 @@ def getLessonsByProduct(request, pk):
         serializerViews = LessonViewSerializer(views, many = True)
         return Response({'lessons': serializer.data, 'views': serializerViews.data})
     except:
-        return Response({'detail':'Product does not exist or you are not authorized'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'detail':'Product does not exist or you are not authorizedA'}, status=status.HTTP_400_BAD_REQUEST)
         
+
+#Реализовать API для отображения статистики по продуктам. Необходимо отобразить список всех продуктов на платформе, 
+# к каждому продукту приложить информацию:
+#Количество просмотренных уроков от всех учеников.
+#Сколько в сумме все ученики потратили времени на просмотр роликов.
+#Количество учеников занимающихся на продукте.
+#Процент приобретения продукта (рассчитывается исходя из количества полученных доступов к продукту 
+# деленное на общее количество пользователей на платформе).
+@api_view(['GET'])
+def getProductStats(request):
+    user = request.user
+
+    products = Product.objects.all()
+    serializer =  ProductSerializer(products, many = True)
+    return Response(serializer.data)
